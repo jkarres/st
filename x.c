@@ -1976,7 +1976,7 @@ main(int argc, char *argv[])
 	} ARGEND;
 
 run:
-    colorname = palettes[0];
+	colorname = palettes[3];
 
 	if (argc > 0) /* eat all remaining arguments */
 		opt_cmd = argv;
