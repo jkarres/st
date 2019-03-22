@@ -56,6 +56,7 @@ static void selpaste(const Arg *);
 static void zoom(const Arg *);
 static void zoomabs(const Arg *);
 static void zoomreset(const Arg *);
+static void setpalette(const Arg *);
 
 /* config.h for applying patches and the configuration. */
 #include "config.h"
@@ -722,7 +723,7 @@ xloadcolor(int i, const char *name, Color *ncolor)
 				color.green = color.blue = color.red;
 			}
 			return XftColorAllocValue(xw.dpy, xw.vis,
-			                          xw.cmap, &color, ncolor);
+						  xw.cmap, &color, ncolor);
 		} else
 			name = colorname[i];
 	}
@@ -1914,6 +1915,15 @@ usage(void)
 	    " [stty_args ...]\n", argv0, argv0);
 }
 
+void setpalette(const Arg *arg) {
+
+    if ( arg->i < LEN(palettes) )   {
+        colorname = palettes[arg->i];
+        xloadcols();
+        cresize(win.w, win.h);
+    }
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -1966,6 +1976,8 @@ main(int argc, char *argv[])
 	} ARGEND;
 
 run:
+    colorname = palettes[0];
+
 	if (argc > 0) /* eat all remaining arguments */
 		opt_cmd = argv;
 
